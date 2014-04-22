@@ -9,6 +9,7 @@
 <body>
 	<%-- Import the java.sql package --%>
 	<%@ page import="java.sql.*"%>
+	<%@ page import="cse135.Util"%>
 	<%-- -------- Open Connection Code -------- --%>
 	<%
 	
@@ -22,8 +23,12 @@
 	
 	    // Open a connection to the database using DriverManager
 	    conn = DriverManager.getConnection(
-	        "jdbc:postgresql://localhost/project?" +
-	        "user=postgres&password=postgres");
+	        "jdbc:postgresql://" +
+	    	Util.SERVERNAME + ":" +
+	    	Util.PORTNUMBER + "/" +
+	    	Util.DATABASE,
+	    	Util.USERNAME,
+	        Util.PASSWORD);
 	%>
 	<%-- ---- Getting the database------ --%>
 	<%
