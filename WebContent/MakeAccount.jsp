@@ -72,7 +72,7 @@
 			%>
 	        
 			<h1>Sign Up Unsuccessful</h1>
-			<form method="GET" action="login.jsp">
+			<form method="GET" action="signup.jsp">
 	    		<input type="submit" value="Log in"/>
 			</form>
 	        <% 

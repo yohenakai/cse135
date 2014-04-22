@@ -78,7 +78,7 @@
 		<input type="submit" value="Click to signup"/>
 	</form>
 	
-	<form method="GET" action="login.jsp">
+	<form method="GET" action="login.html">
 	    <p /><p />Already have an account?
 	    <input type="submit" value="Log in"/>
 	</form>

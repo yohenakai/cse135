@@ -9,6 +9,7 @@
 <body>
             <%-- Import the java.sql package --%>
             <%@ page import="java.sql.*"%>
+            <%@ page import="cse135.Util"%>
             <%-- -------- Open Connection Code -------- --%>
             <%
             
@@ -19,40 +20,20 @@
             try {
                 // Registering Postgresql JDBC driver with the DriverManager
                 Class.forName("org.postgresql.Driver");
+                
 
                 // Open a connection to the database using DriverManager
-                conn = DriverManager.getConnection(
-                    "jdbc:postgresql://localhost/cse135?" +
-                    "user=postgres&password=postgres");
+			    conn = DriverManager.getConnection(
+			        "jdbc:postgresql://" +
+			    	Util.SERVERNAME + ":" +
+			    	Util.PORTNUMBER + "/" +
+			    	Util.DATABASE,
+			    	Util.USERNAME,
+			        Util.PASSWORD);
             %>
             
-            <%-- -------- INSERT Code -------- --%>
-            <%
-                String action = request.getParameter("action");
-                // Check if an insertion is requested
-                if (action != null && action.equals("insert")) {
 
-                    // Begin transaction
-                    conn.setAutoCommit(false);
-
-                    // Create the prepared statement and use it to
-                    // INSERT student values INTO the students table.
-                    pstmt = conn
-                    .prepareStatement("INSERT INTO students (pid, first_name, middle_name, last_name) VALUES (?, ?, ?, ?)");
-
-                    pstmt.setInt(1, Integer.parseInt(request.getParameter("pid")));
-                    pstmt.setString(2, request.getParameter("first"));
-                    pstmt.setString(3, request.getParameter("middle"));
-                    pstmt.setString(4, request.getParameter("last"));
-                    int rowCount = pstmt.executeUpdate();
-
-                    // Commit transaction
-                    conn.commit();
-                    conn.setAutoCommit(true);
-                }
-            %>
-
-
+            
             <%-- -------- SELECT Statement Code -------- --%>
             <%
                 // Create the statement
@@ -60,12 +41,17 @@
 
                 // Use the created statement to SELECT
                 // the student attributes FROM the Student table.
-                rs = statement.executeQuery("SELECT * FROM students");
+                rs = statement.executeQuery("SELECT * FROM users where username = '" + request.getParameter("loginUsername") + "'");
             %>
             
             
            <%-- -------- Close Connection Code -------- --%>
             <%
+            	String username=request.getParameter("loginUsername");
+            	if (rs.next()){
+            		session.setAttribute("username",username);
+                    response.sendRedirect("categories.jsp");
+            	}
                 // Close the ResultSet
                 rs.close();
 
