@@ -4,7 +4,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>Insert title here</title>
+<title>Categories</title>
 </head>
 <body>
 <h1>Categories page</h1>
@@ -48,12 +48,9 @@
                     // Create the prepared statement and use it to
                     // INSERT student values INTO the students table.
                     pstmt = conn
-                    .prepareStatement("INSERT INTO users (username, role, age, state) VALUES (?, ?, ?, ?)");
+                    .prepareStatement("INSERT INTO categories (category) VALUES (?)");
 
-                    pstmt.setString(1, request.getParameter("username"));
-                    pstmt.setString(2, request.getParameter("role"));
-                    pstmt.setInt(3, Integer.parseInt(request.getParameter("age")));
-                    pstmt.setString(4, request.getParameter("state"));
+                    pstmt.setString(1, request.getParameter("category"));
                     int rowCount = pstmt.executeUpdate();
 
                     // Commit transaction
@@ -73,14 +70,11 @@
                     // Create the prepared statement and use it to
                     // UPDATE student values in the Students table.
                     pstmt = conn
-                        .prepareStatement("UPDATE students SET pid = ?, first_name = ?, "
-                            + "middle_name = ?, last_name = ? WHERE id = ?");
+                        .prepareStatement("UPDATE categories category = ?, "
+                            + " WHERE id = ?");
 
-                    pstmt.setString(1, request.getParameter("username"));
-                    pstmt.setString(2, request.getParameter("role"));
-                    pstmt.setInt(3, Integer.parseInt(request.getParameter("age")));
-                    pstmt.setString(4, request.getParameter("state"));
-                    pstmt.setInt(5, Integer.parseInt(request.getParameter("id")));
+                    pstmt.setString(1, request.getParameter("category"));
+                    pstmt.setString(2, request.getParameter("id"));
                     int rowCount = pstmt.executeUpdate();
 
                     // Commit transaction
@@ -100,7 +94,7 @@
                     // Create the prepared statement and use it to
                     // DELETE students FROM the Students table.
                     pstmt = conn
-                        .prepareStatement("DELETE FROM Students WHERE id = ?");
+                        .prepareStatement("DELETE FROM categories WHERE id = ?");
 
                     pstmt.setInt(1, Integer.parseInt(request.getParameter("id")));
                     int rowCount = pstmt.executeUpdate();
@@ -118,27 +112,21 @@
 
                 // Use the created statement to SELECT
                 // the student attributes FROM the Student table.
-                rs = statement.executeQuery("SELECT * FROM students");
+                rs = statement.executeQuery("SELECT * FROM categories");
             %>
             
             <!-- Add an HTML table header row to format the results -->
             <table border="1">
             <tr>
                 <th>ID</th>
-                <th>PID</th>
-                <th>First Name</th>
-                <th>Middle Name</th>
-                <th>Last Name</th>
+                <th>Category</th>
             </tr>
 
             <tr>
-                <form action="attempt3/students.jsp" method="POST">
+                <form action="categories.jsp" method="POST">
                     <input type="hidden" name="action" value="insert"/>
                     <th>&nbsp;</th>
-                    <th><input value="" name="pid" size="10"/></th>
-                    <th><input value="" name="first" size="15"/></th>
-                    <th><input value="" name="middle" size="15"/></th>
-                    <th><input value="" name="last" size="15"/></th>
+                    <th><input value="" name="category" size="15"/></th>
                     <th><input type="submit" value="Insert"/></th>
                 </form>
             </tr>
@@ -150,7 +138,7 @@
             %>
 
             <tr>
-                <form action="attempt3/students.jsp" method="POST">
+                <form action="categories.jsp" method="POST">
                     <input type="hidden" name="action" value="update"/>
                     <input type="hidden" name="id" value="<%=rs.getInt("id")%>"/>
 
@@ -159,30 +147,17 @@
                     <%=rs.getInt("id")%>
                 </td>
 
-                <%-- Get the pid --%>
-                <td>
-                    <input value="<%=rs.getInt("pid")%>" name="pid" size="15"/>
-                </td>
-
-                <%-- Get the first name --%>
-                <td>
-                    <input value="<%=rs.getString("first_name")%>" name="first" size="15"/>
-                </td>
-
-                <%-- Get the middle name --%>
-                <td>
-                    <input value="<%=rs.getString("middle_name")%>" name="middle" size="15"/>
-                </td>
+          
 
                 <%-- Get the last name --%>
                 <td>
-                    <input value="<%=rs.getString("last_name")%>" name="last" size="15"/>
+                    <input value="<%=rs.getString("category")%>" name="category" size="15"/>
                 </td>
 
                 <%-- Button --%>
                 <td><input type="submit" value="Update"></td>
                 </form>
-                <form action="attempt3/students.jsp" method="POST">
+                <form action="categories.jsp" method="POST">
                     <input type="hidden" name="action" value="delete"/>
                     <input type="hidden" value="<%=rs.getInt("id")%>" name="id"/>
                     <%-- Button --%>
