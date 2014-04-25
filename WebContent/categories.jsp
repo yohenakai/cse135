@@ -48,9 +48,10 @@
                     // Create the prepared statement and use it to
                     // INSERT student values INTO the students table.
                     pstmt = conn
-                    .prepareStatement("INSERT INTO categories (category) VALUES (?)");
+                    .prepareStatement("INSERT INTO categories (category, description) VALUES (?, ?)");
 
                     pstmt.setString(1, request.getParameter("category"));
+                    pstmt.setString(2, request.getParameter("description"));
                     int rowCount = pstmt.executeUpdate();
 
                     // Commit transaction
@@ -70,11 +71,11 @@
                     // Create the prepared statement and use it to
                     // UPDATE student values in the Students table.
                     pstmt = conn
-                        .prepareStatement("UPDATE categories category = ?, "
-                            + " WHERE id = ?");
-
-                    pstmt.setString(1, request.getParameter("category"));
-                    pstmt.setString(2, request.getParameter("id"));
+                        .prepareStatement("UPDATE categories SET description = ?, "
+                            + " WHERE category = ?");
+                    
+                    pstmt.setString(1, request.getParameter("description"));
+                    pstmt.setString(2, request.getParameter("category"));
                     int rowCount = pstmt.executeUpdate();
 
                     // Commit transaction
@@ -94,9 +95,9 @@
                     // Create the prepared statement and use it to
                     // DELETE students FROM the Students table.
                     pstmt = conn
-                        .prepareStatement("DELETE FROM categories WHERE id = ?");
+                        .prepareStatement("DELETE FROM categories WHERE category = ?");
 
-                    pstmt.setInt(1, Integer.parseInt(request.getParameter("id")));
+                    pstmt.setInt(1, Integer.parseInt(request.getParameter("category")));
                     int rowCount = pstmt.executeUpdate();
 
                     // Commit transaction
@@ -118,15 +119,16 @@
             <!-- Add an HTML table header row to format the results -->
             <table border="1">
             <tr>
-                <th>ID</th>
                 <th>Category</th>
-            </tr>
+                <th>Description</th> 
+            </tr>             
+
 
             <tr>
                 <form action="categories.jsp" method="POST">
                     <input type="hidden" name="action" value="insert"/>
-                    <th>&nbsp;</th>
                     <th><input value="" name="category" size="15"/></th>
+                    <th><input value="" name="description" size="25"/></th>
                     <th><input type="submit" value="Insert"/></th>
                 </form>
             </tr>
@@ -140,26 +142,24 @@
             <tr>
                 <form action="categories.jsp" method="POST">
                     <input type="hidden" name="action" value="update"/>
-                    <input type="hidden" name="id" value="<%=rs.getInt("id")%>"/>
 
                 <%-- Get the id --%>
                 <td>
-                    <%=rs.getInt("id")%>
+                    <%=rs.getString("category")%>
                 </td>
 
           
 
                 <%-- Get the last name --%>
                 <td>
-                    <input value="<%=rs.getString("category")%>" name="category" size="15"/>
+                    <input value="<%=rs.getString("description")%>" name="category" size="25"/>
                 </td>
-
+                
                 <%-- Button --%>
                 <td><input type="submit" value="Update"></td>
                 </form>
                 <form action="categories.jsp" method="POST">
                     <input type="hidden" name="action" value="delete"/>
-                    <input type="hidden" value="<%=rs.getInt("id")%>" name="id"/>
                     <%-- Button --%>
                 <td><input type="submit" value="Delete"/></td>
                 </form>
