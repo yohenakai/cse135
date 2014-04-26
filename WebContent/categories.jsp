@@ -8,6 +8,7 @@
 </head>
 <body>
 <h1>Categories page</h1>
+<h3><%="Welcome " + session.getAttribute("username").toString() %></h3>
 
 <table>
     <tr>
