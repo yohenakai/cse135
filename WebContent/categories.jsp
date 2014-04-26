@@ -51,7 +51,7 @@
                     .prepareStatement("INSERT INTO categories (category, description) VALUES (?, ?)");
 
                     pstmt.setString(1, request.getParameter("category"));
-                    pstmt.setString(2, request.getParameter("description"));
+                    pstmt.setString(2, request.getParameter("descrption"));
                     int rowCount = pstmt.executeUpdate();
 
                     // Commit transaction
@@ -71,11 +71,11 @@
                     // Create the prepared statement and use it to
                     // UPDATE student values in the Students table.
                     pstmt = conn
-                        .prepareStatement("UPDATE categories SET description = ?, "
+                        .prepareStatement("UPDATE categories SET description = ? "
                             + " WHERE category = ?");
                     
-                    pstmt.setString(1, request.getParameter("description"));
-                    pstmt.setString(2, request.getParameter("category"));
+                    pstmt.setString(1, request.getParameter("descript"));
+                    pstmt.setString(2, request.getParameter("categor"));
                     int rowCount = pstmt.executeUpdate();
 
                     // Commit transaction
@@ -97,7 +97,7 @@
                     pstmt = conn
                         .prepareStatement("DELETE FROM categories WHERE category = ?");
 
-                    pstmt.setInt(1, Integer.parseInt(request.getParameter("category")));
+                    pstmt.setString(1, request.getParameter("categ"));
                     int rowCount = pstmt.executeUpdate();
 
                     // Commit transaction
@@ -142,7 +142,7 @@
             <tr>
                 <form action="categories.jsp" method="POST">
                     <input type="hidden" name="action" value="update"/>
-
+					<input type="hidden" value="<%=rs.getString("category")%>" name="categor"/>
                 <%-- Get the id --%>
                 <td>
                     <%=rs.getString("category")%>
@@ -152,7 +152,7 @@
 
                 <%-- Get the last name --%>
                 <td>
-                    <input value="<%=rs.getString("description")%>" name="category" size="25"/>
+                    <input value="<%=rs.getString("description")%>" name="descript" size="25"/>
                 </td>
                 
                 <%-- Button --%>
@@ -160,6 +160,7 @@
                 </form>
                 <form action="categories.jsp" method="POST">
                     <input type="hidden" name="action" value="delete"/>
+                    <input type="hidden" value="<%=rs.getString("category")%>" name="categ"/>
                     <%-- Button --%>
                 <td><input type="submit" value="Delete"/></td>
                 </form>
