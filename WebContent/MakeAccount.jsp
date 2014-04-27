@@ -62,7 +62,7 @@
 	        conn.setAutoCommit(true); %>
 	        
 			<h1>Sign Up Successful</h1>
-			<form method="GET" action="login.jsp">
+			<form method="GET" action="login.html">
 	    		<input type="submit" value="Log in"/>
 			</form>
 	        <% 

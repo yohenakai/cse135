@@ -65,7 +65,7 @@
 			<option value="sc">SC</option>
 			<option value="sd">SD</option>
 			<option value="tn">TN</option>
-			<option value="tx">RX</option>
+			<option value="tx">TX</option>
 			<option value="ut">UT</option>
 			<option value="vt">VT</option>
 			<option value="va">VA</option>
