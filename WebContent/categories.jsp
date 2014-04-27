@@ -50,9 +50,11 @@
                     // INSERT student values INTO the students table.
                     pstmt = conn
                     .prepareStatement("INSERT INTO categories (category, description) VALUES (?, ?)");
-
+                    
                     pstmt.setString(1, request.getParameter("category"));
-                    pstmt.setString(2, request.getParameter("descrption"));
+                    pstmt.setString(2, request.getParameter("description"));
+                   
+                    
                     int rowCount = pstmt.executeUpdate();
 
                     // Commit transaction
