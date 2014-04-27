@@ -50,7 +50,17 @@
             	String username=request.getParameter("loginUsername");
             	if (rs.next()){
             		session.setAttribute("username",username);
-                    response.sendRedirect("categories.jsp");
+            		if((rs.getString("role")).equals("owner")){
+                    	response.sendRedirect("categories.jsp");
+            		}
+            		else{
+            			response.sendRedirect("productBrowsing.jsp");
+            		}
+            	}
+            	
+            	else{
+            		session.setAttribute("invalidUsername",username);
+                    response.sendRedirect("loginfail.jsp");
             	}
                 // Close the ResultSet
                 rs.close();
