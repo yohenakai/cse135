@@ -10,5 +10,9 @@ public class Util {
 	public static final String DATABASE = "cse135";
 	public static final String PORTNUMBER = "5432";
 	
+	public static final String greeting(String username)
+	{
+		return "Hello " + username;
+	}
 	
 }
