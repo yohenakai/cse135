@@ -22,7 +22,8 @@
             Connection conn = null;
             PreparedStatement pstmt = null;
             ResultSet rs = null;
-            
+            ResultSet res = null;
+
             try {
                 // Registering Postgresql JDBC driver with the DriverManager
                 Class.forName("org.postgresql.Driver");
@@ -116,7 +117,7 @@
 
                 // Use the created statement to SELECT
                 // the student attributes FROM the Student table.
-                rs = statement.executeQuery("SELECT * FROM categories");
+                rs = statement.executeQuery("SELECT distinct c.category, c.description FROM categories c join products p on p.category = c.category");
             %>
             
             <!-- Add an HTML table header row to format the results -->
@@ -140,6 +141,7 @@
             <%
                 // Iterate over the ResultSet
                 while (rs.next()) {
+
             %>
 
             <tr>
@@ -161,17 +163,65 @@
                 <%-- Button --%>
                 <td><input type="submit" value="Update"></td>
                 </form>
+                
+
+                
+                
+                <td>&nbsp;</td>
+                
+
+                      
+                </tr>
+                <%
+                }
+                // Iterate over the ResultSet
+                res = statement.executeQuery("SELECT a.category, a.description from categories a where a.category not in (SELECT distinct c.category FROM categories c join products p on p.category = c.category)");
+
+                while (res.next()) {
+
+            %>
+
+            <tr>
+                <form action="categories.jsp" method="POST">
+                    <input type="hidden" name="action" value="update"/>
+					<input type="hidden" value="<%=res.getString("category")%>" name="categor"/>
+                <%-- Get the id --%>
+                <td>
+                    <%=res.getString("category")%>
+                </td>
+
+          
+
+                <%-- Get the last name --%>
+                <td>
+                    <input value="<%=res.getString("description")%>" name="descript" size="25"/>
+                </td>
+                
+                <%-- Button --%>
+                <td><input type="submit" value="Update"></td>
+                </form>
+                
+
+                
+                
+                
+
+
+
                 <form action="categories.jsp" method="POST">
                     <input type="hidden" name="action" value="delete"/>
-                    <input type="hidden" value="<%=rs.getString("category")%>" name="categ"/>
+                    <input type="hidden" value="<%=res.getString("category")%>" name="categ"/>
                     <%-- Button --%>
-                <td><input type="submit" value="Delete"/></td>
-                </form>
-            </tr>
 
-            <%
+                <td><input type="submit" value="Delete"/></td>
+
+                </form>
+                      
+                </tr>
+                <%
                 }
-            %>
+                %>
+            
 
             <%-- -------- Close Connection Code -------- --%>
             <%
