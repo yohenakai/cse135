@@ -8,6 +8,9 @@
 </head>
 <body>
 	
+<h1>View Products</h1>
+<h3><%=Util.greeting(session.getAttribute("username").toString()) %></h3>	
+	
 	<%-- Import the java.sql package --%>
             <%@ page import="java.sql.*"%>
             <%@ page import="cse135.Util" %>
@@ -39,17 +42,51 @@
                 // Use the created statement to SELECT
                 // the student attributes FROM the Student table.
                 String cat = request.getParameter("category");
+                String intersection = request.getParameter("intersection");
+                String searchinput = request.getParameter("searchinput");
                 String title;
-                if(cat.equals("viewall")){
-                	title = "View All Products";
-                	rs = statement.executeQuery("SELECT * FROM products");
+                
+                if(intersection.equals("true"))
+                {
+                	title = "Search Result";
+                	if(cat.equals("viewall"))
+                	{
+                		rs = statement.executeQuery("SELECT * FROM products where name LIKE" + "'%" + searchinput + "%'");
+                	}
+                	else
+                	{
+                		rs = statement.executeQuery("SELECT * FROM products where category = " + "'" + cat + "' AND name LIKE" + "'%" + searchinput+ "%'");		
+                	}
                 }
+                
                 else
                 {
-                	title = "Category: " + cat;
-                	rs = statement.executeQuery("SELECT * FROM products where category = " +"'" + request.getParameter("category")+ "'");
+	                if(cat.equals("viewall")){
+	                	title = "View All Products";
+	                	rs = statement.executeQuery("SELECT * FROM products");
+	                }
+	                else if(cat.equals("none"))
+	                {
+	                	title = "Search Result";
+	                	rs = statement.executeQuery("SELECT * FROM products where name LIKE "+ "'%" + searchinput+ "%'");
+	                }
+	                else
+	                {
+	                	title = "Category: " + cat;
+	                	rs = statement.executeQuery("SELECT * FROM products where category = " +"'" + cat+ "'");
+	                }
                 }
              %>
+             
+     <form method="GET" action="ViewProducts.jsp">
+	
+		Search (Enter Product Name):
+		<input type="text" name="searchinput"/> <p/>
+		<input type="hidden" name="intersection" value="true"/>
+		<input type="hidden" name="category" value="<%=cat%>"/>
+		<input type="submit" value="Search"/>
+	
+	</form>
 	
 	<h3><%=title%></h3>
 	
@@ -79,21 +116,15 @@
 	rs = statement.executeQuery("SELECT * FROM categories");
 	while (rs.next()) {
 		
-		if(rs.getString("category").equals(cat)) {}
-		else{
 	%>
 	
-	<a href="ViewProducts.jsp?category=<%=rs.getString("category")%>"><%=rs.getString("category")%></a>
+	<a href="ViewProducts.jsp?intersection=false&category=<%=rs.getString("category")%>"><%=rs.getString("category")%></a>
 	<br>
 	
-	<% }} 
-	
-	if(cat.equals("viewall")) {}
-	else {%>
-		
-	<a href="ViewProducts.jsp?category=viewall">All Products</a>
-	
 	<% } %>
+		
+	<a href="ViewProducts.jsp?intersection=false&category=viewall">All Products</a>
+	
 
 
 	            <%-- -------- Close Connection Code -------- --%>

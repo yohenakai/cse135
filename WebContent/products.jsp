@@ -9,7 +9,7 @@
 <body>
 
 <h1>Products page</h1>
-<h3><%="Welcome " + session.getAttribute("username").toString() %></h3>
+<h3><%=Util.greeting(session.getAttribute("username").toString()) %></h3>
 
 
 <%-- Import the java.sql package --%>
@@ -45,6 +45,14 @@
                 rs = statement.executeQuery("SELECT * FROM categories");
             %>
 
+	<form method="GET" action="ViewProducts.jsp">
+		Search (Enter Product Name):
+		<input type="text" name="searchinput"/> <p/>
+		<input type="hidden" name="intersection" value="false"/>
+		<input type="hidden" name="category" value="none"/>
+		<input type="submit" value="Search"/>
+	</form>
+
 
 	<form method="POST" action="RegisterProduct.jsp">
 		Product name: 
@@ -75,11 +83,11 @@
 	while (rs.next()) {
 	%>
 	
-	<a href="ViewProducts.jsp?category=<%=rs.getString("category")%>"><%=rs.getString("category")%></a>
+	<a href="ViewProducts.jsp?intersection=false&category=<%=rs.getString("category")%>"><%=rs.getString("category")%></a>
 	<br>
 	
 	<% } %>	
-	<a href="ViewProducts.jsp?category=viewall">All Products</a>
+	<a href="ViewProducts.jsp?intersection=false&category=viewall">All Products</a>
 	
 	
 	            <%-- -------- Close Connection Code -------- --%>
