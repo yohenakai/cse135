@@ -132,7 +132,7 @@
                 <form action="categories.jsp" method="POST">
                     <input type="hidden" name="action" value="insert"/>
                     <th><input value="" name="category" size="15"/></th>
-                    <th><input value="" name="description" size="25"/></th>
+                    <th><textarea  name="description" cols="25" rows="5"></textarea></th>
                     <th><input type="submit" value="Insert"/></th>
                 </form>
             </tr>

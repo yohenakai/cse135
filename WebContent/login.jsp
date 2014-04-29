@@ -51,7 +51,7 @@
             	if (rs.next()){
             		session.setAttribute("username",username);
             		if((rs.getString("role")).equals("owner")){
-                    	response.sendRedirect("categories.jsp");
+                    	response.sendRedirect("ownerOptions.jsp");
             		}
             		else{
             			response.sendRedirect("productBrowsing.jsp");
