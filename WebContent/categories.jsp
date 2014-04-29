@@ -157,7 +157,7 @@
 
                 <%-- Get the last name --%>
                 <td>
-                    <input value="<%=rs.getString("description")%>" name="descript" size="25"/>
+                    <textarea  name="descript" cols="25" rows="5"><%=rs.getString("description")%></textarea>
                 </td>
                 
                 <%-- Button --%>
@@ -194,7 +194,7 @@
 
                 <%-- Get the last name --%>
                 <td>
-                    <input value="<%=res.getString("description")%>" name="descript" size="25"/>
+                    <textarea  name="descript" cols="25" rows="5"><%=res.getString("description")%></textarea>
                 </td>
                 
                 <%-- Button --%>
