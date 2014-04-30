@@ -41,7 +41,8 @@
     %>
 	<%-- -------- INSERT Code -------- --%>
 	<%
-	    if (!rs.next()) {
+	    if (!rs.next() 
+	    && request.getParameter("productname") != "") {
 	
 	        // Begin transaction
 	        conn.setAutoCommit(false);
@@ -73,11 +74,11 @@
 	        
 	    }
 	    else{
-
-			%>
+	    	
+	    	%>
 	        <h1>Failure to insert new product</h1>
 			
-	        <% 
+	        <%
 	    	
 	    }
 	 // Close the ResultSet
@@ -92,7 +93,11 @@
 
         // Wrap the SQL exception in a runtime exception to propagate
         // it upwards
-        throw new RuntimeException(e);
+        //throw new RuntimeException(e);
+    	%>
+        <h1>Failure to insert new product</h1>
+		
+        <%
     }
     finally {
         // Release resources in a finally block in reverse-order of
