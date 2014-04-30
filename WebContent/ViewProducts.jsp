@@ -41,53 +41,67 @@
 
                 // Use the created statement to SELECT
                 // the student attributes FROM the Student table.
-                String cat = request.getParameter("category");
-                String intersection = request.getParameter("intersection");
-                String searchinput = request.getParameter("searchinput");
-                String title;
-                
-                if(intersection.equals("true"))
-                {
-                	title = "Search Result";
-                	if(cat.equals("viewall"))
-                	{
-                		rs = statement.executeQuery("SELECT * FROM products where name LIKE" + "'%" + searchinput + "%'");
-                	}
-                	else
-                	{
-                		rs = statement.executeQuery("SELECT * FROM products where category = " + "'" + cat + "' AND name LIKE" + "'%" + searchinput+ "%'");		
-                	}
-                }
-                
-                else
-                {
-	                if(cat.equals("viewall")){
-	                	title = "View All Products";
-	                	rs = statement.executeQuery("SELECT * FROM products");
-	                }
-	                else if(cat.equals("none"))
-	                {
-	                	title = "Search Result";
-	                	rs = statement.executeQuery("SELECT * FROM products where name LIKE "+ "'%" + searchinput+ "%'");
-	                }
-	                else
-	                {
-	                	title = "Category: " + cat;
-	                	rs = statement.executeQuery("SELECT * FROM products where category = " +"'" + cat+ "'");
-	                }
-                }
+               
              %>
              
      <form method="GET" action="ViewProducts.jsp">
 	
 		Search (Enter Product Name):
-		<input type="text" name="searchinput"/> <p/>
-		<input type="hidden" name="intersection" value="true"/>
-		<input type="hidden" name="category" value="<%=cat%>"/>
+		<input type="text" name="search"/> <p/>
+		<input type="hidden" name="category" value="<%=request.getParameter("category")%>"/>
 		<input type="submit" value="Search"/>
 	
 	</form>
 	
+<h3>View products by categories</h3>
+	
+	<% 
+	rs = statement.executeQuery("SELECT * FROM categories");
+	while (rs.next()) {
+		
+	%>
+	
+	<a href="ViewProducts.jsp?search=<%=request.getParameter("search")%>&category=<%=rs.getString("category")%>"><%=rs.getString("category")%></a>
+	<br>
+	
+	<% } %>
+		
+	<a href="ViewProducts.jsp?search=<%=request.getParameter("search")%>&category=all">All Products</a>
+	
+	<% 
+	String cat = request.getParameter("category");
+    String search = request.getParameter("search");
+    String title;
+    
+    
+    if(!search.equals(""))
+    {
+    	title = "Search Result";
+    	if(cat.equals("all") || cat.equals(""))
+    	{
+    		rs = statement.executeQuery("SELECT * FROM products where name LIKE" + "'%" + search + "%'");
+    	}
+    	else
+    	{
+    		rs = statement.executeQuery("SELECT * FROM products where category = " + "'" + cat + "' AND name LIKE" + "'%" + search+ "%'");		
+    	}
+    }
+    
+    else
+    {
+        if(cat.equals("all")){
+        	title = "View All Products";
+        	rs = statement.executeQuery("SELECT * FROM products");
+        }
+        else
+        {
+        	title = "Category: " + cat;
+        	rs = statement.executeQuery("SELECT * FROM products where category = " +"'" + cat+ "'");
+        }
+    }
+        
+   
+	%>
 	<h3><%=title%></h3>
 	
 	<table border="1">
@@ -110,20 +124,7 @@
 	
 	</table>
 	
-	<h3>View products by categories</h3>
-	
-	<% 
-	rs = statement.executeQuery("SELECT * FROM categories");
-	while (rs.next()) {
-		
-	%>
-	
-	<a href="ViewProducts.jsp?intersection=false&category=<%=rs.getString("category")%>"><%=rs.getString("category")%></a>
-	<br>
-	
-	<% } %>
-		
-	<a href="ViewProducts.jsp?intersection=false&category=viewall">All Products</a>
+
 	
 
 

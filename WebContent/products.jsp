@@ -47,12 +47,25 @@
 
 	<form method="GET" action="ViewProducts.jsp">
 		Search (Enter Product Name):
-		<input type="text" name="searchinput"/> <p/>
-		<input type="hidden" name="intersection" value="false"/>
-		<input type="hidden" name="category" value="none"/>
+		<input type="text" name="search"/> <p/>
+		<input type="hidden" name="category" value=""/>
 		<input type="submit" value="Search"/>
 	</form>
 
+<h3>View products by categories</h3>
+	
+	<% 
+	rs = statement.executeQuery("SELECT * FROM categories");
+	while (rs.next()) {
+	%>
+	
+	<a href="ViewProducts.jsp?search=&category=<%=rs.getString("category")%>"><%=rs.getString("category")%></a>
+	<br>
+	
+	<% } %>	
+	<a href="ViewProducts.jsp?search=&category=all">All Products</a>
+
+<h3>Add product</h3>
 
 	<form method="POST" action="RegisterProduct.jsp">
 		Product name: 
@@ -76,18 +89,6 @@
 		<input type="submit" value="Submit Product"/>
 	</form>
 	
-	<h3>View products by categories</h3>
-	
-	<% 
-	rs = statement.executeQuery("SELECT * FROM categories");
-	while (rs.next()) {
-	%>
-	
-	<a href="ViewProducts.jsp?intersection=false&category=<%=rs.getString("category")%>"><%=rs.getString("category")%></a>
-	<br>
-	
-	<% } %>	
-	<a href="ViewProducts.jsp?intersection=false&category=viewall">All Products</a>
 	
 	
 	            <%-- -------- Close Connection Code -------- --%>
