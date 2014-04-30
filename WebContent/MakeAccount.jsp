@@ -16,6 +16,7 @@
 	Connection conn = null;
 	PreparedStatement pstmt = null;
 	ResultSet rs = null;
+	boolean error = false;
 	
 	try {
 	    // Registering Postgresql JDBC driver with the DriverManager
@@ -41,8 +42,18 @@
     %>
 	<%-- -------- INSERT Code -------- --%>
 	<%
-	    if (!rs.next()) {
 	
+	try{
+		int i = Integer.parseInt(request.getParameter("age"));
+	}catch(NumberFormatException e){
+		error = true;
+	}
+	    if (!rs.next()
+	    	&& request.getParameter("username") != ""
+	    	&& request.getParameter("age") != ""
+	    	&& !error)
+	    {
+	    	
 	        // Begin transaction
 	        conn.setAutoCommit(false);
 	
@@ -59,24 +70,22 @@
 	
 	        // Commit transaction
 	        conn.commit();
-	        conn.setAutoCommit(true); %>
-	        
-			<h1>Sign Up Successful</h1>
+	        conn.setAutoCommit(true); 
+	        %>
+	        <h1>Sign Up Successful</h1>
 			<form method="GET" action="login.html">
 	    		<input type="submit" value="Log in"/>
 			</form>
 	        <% 
 	    }
-	    else{
-	    	
+	    else
+	    {
 			%>
-	        
 			<h1>Sign Up Unsuccessful</h1>
 			<form method="GET" action="signup.jsp">
 	    		<input type="submit" value="Back"/>
 			</form>
 	        <% 
-	    	
 	    }
 	 // Close the ResultSet
         rs.close();
