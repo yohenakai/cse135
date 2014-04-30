@@ -45,7 +45,7 @@
                 rs = statement.executeQuery("SELECT * FROM categories");
             %>
 
-	<form method="GET" action="ViewProducts.jsp">
+	<form method="GET" action="products.jsp">
 		Search (Enter Product Name):
 		<input type="text" name="search"/> <p/>
 		<input type="hidden" name="category" value=""/>
@@ -59,11 +59,11 @@
 	while (rs.next()) {
 	%>
 	
-	<a href="ViewProducts.jsp?search=&category=<%=rs.getString("category")%>"><%=rs.getString("category")%></a>
+	<a href="products.jsp?search=&category=<%=rs.getString("category")%>"><%=rs.getString("category")%></a>
 	<br>
 	
 	<% } %>	
-	<a href="ViewProducts.jsp?search=&category=all">All Products</a>
+	<a href="products.jsp?search=&category=all">All Products</a>
 
 <h3>Add product</h3>
 
@@ -88,6 +88,65 @@
 		
 		<input type="submit" value="Submit Product"/>
 	</form>
+	
+	
+	<% 
+	String cat = request.getParameter("category");
+    String search = request.getParameter("search");
+    if(cat != null && search != null)
+    {
+    if(!search.equals(""))
+    {
+    	if(cat.equals("all") || cat.equals(""))
+    	{
+    		rs = statement.executeQuery("SELECT * FROM products where name LIKE" + "'%" + search + "%'");
+    	}
+    	else
+    	{
+    		rs = statement.executeQuery("SELECT * FROM products where category = " + "'" + cat + "' AND name LIKE" + "'%" + search+ "%'");		
+    	}
+    }
+    
+    else
+    {
+        if(cat.equals("all")){
+        	rs = statement.executeQuery("SELECT * FROM products");
+        }
+        else
+        {
+        	rs = statement.executeQuery("SELECT * FROM products where category = " +"'" + cat+ "'");
+        }
+    }
+       
+   	if (rs.next())
+   	{
+	%>
+	<h3>Search Result</h3>
+	
+	<table border="1">
+	
+	<th>Category</th>
+	<th>Product</th>
+	<th>SKU</th>
+	<th>Price</th>
+	
+	<% while (rs.next()) { %>
+
+	<tr>
+		<td>  <%=rs.getString("category")%> </td>
+		<td>  <%=rs.getString("name")%> </td>
+		<td>  <%=rs.getString("sku")%> </td>
+		<td>  <%=rs.getString("price")%> </td>
+	</tr>
+	
+	<% } %>
+	
+	</table>
+	<% } else
+   	{}
+   	}%>
+   	
+   	
 	
 	
 	

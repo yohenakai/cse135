@@ -68,6 +68,31 @@
 		
 	<a href="ViewProducts.jsp?search=<%=request.getParameter("search")%>&category=all">All Products</a>
 	
+<h3>Add product</h3>
+
+	<form method="POST" action="RegisterProduct.jsp">
+		Product name: 
+		<input type="text" name="productname"/> <p />
+		
+		SKU:
+		<input type="text" name="sku"/> <p />
+		
+		Price: 
+		<input type="text" name="price"/> <p />
+		
+		Category: 
+		<select name="category">
+		<% while (rs.next()) { %>
+		
+		<option value="<%=rs.getString("category")%>"> <%=rs.getString("category")%> </option>
+		
+		<% } %>	
+		</select> <p />
+		
+		<input type="submit" value="Submit Product"/>
+	</form>	
+	
+	
 	<% 
 	String cat = request.getParameter("category");
     String search = request.getParameter("search");
