@@ -73,7 +73,7 @@
 	        
 			<h1>Sign Up Unsuccessful</h1>
 			<form method="GET" action="signup.jsp">
-	    		<input type="submit" value="Log in"/>
+	    		<input type="submit" value="Back"/>
 			</form>
 	        <% 
 	    	

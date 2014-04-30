@@ -9,7 +9,7 @@
         <h1>Login Failed</h1><p />
         <h3><%="The provided name " + session.getAttribute("invalidUsername").toString() + " is not known " %></h3>
         <input type=text name=loginUsername>
-        <input type="submit" value="Log in"/>
+        <input type="submit" value="Back"/>
     </form>
 </body>
 </html>
