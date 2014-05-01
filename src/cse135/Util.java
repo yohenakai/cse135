@@ -5,7 +5,6 @@ import javax.servlet.http.*;
 public class Util {
 
 	
-	
 	public static final String SERVERNAME = "ec2-54-187-115-171.us-west-2.compute.amazonaws.com";
 	public static final String USERNAME = "ubuntu";
 	public static final String PASSWORD = "ubuntu";

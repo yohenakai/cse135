@@ -40,6 +40,7 @@
         // the student attributes FROM the Student table.
         rs = statement.executeQuery("SELECT * FROM users where username = " +"'" + request.getParameter("username")+ "'");
     %>
+    
 	<%-- -------- INSERT Code -------- --%>
 	<%
 	
