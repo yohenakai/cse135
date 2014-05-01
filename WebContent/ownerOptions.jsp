@@ -7,9 +7,10 @@
 <title>Options</title>
 </head>
 <body>
-<h1>Options</h1>
 
 <% if(Util.isOwner(session)) {%>
+
+<h1>Options</h1>
 
 <h3><%=Util.greeting(session.getAttribute("username").toString()) %></h3>
 

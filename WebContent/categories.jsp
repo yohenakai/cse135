@@ -7,7 +7,11 @@
 <title>Categories</title>
 </head>
 <body>
+
+<% if(Util.isOwner(session)) {%>
+
 <h1>Categories page</h1>
+
 <h3><%=Util.greeting(session.getAttribute("username").toString()) %></h3>
 
 <table>
@@ -267,7 +271,12 @@
                     conn = null;
                 }
             }
-            %>
+		}else{%>
+            
+            <h3>You must be logged in first</h3>
+           	<a href="login.html">Login</a>
+
+        	<% } %>
         </table>
         </td>
     </tr>

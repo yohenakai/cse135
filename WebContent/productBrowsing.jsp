@@ -7,9 +7,9 @@
 <title>Product Browsing</title>
 </head>
 <body>
-<h1>Products Browsing page</h1>
 
 <% if(Util.isCustomer(session)) {%>
+<h1>Products Browsing page</h1>
 
 <h3><%=Util.greeting(session.getAttribute("username").toString()) %></h3>
 
