@@ -4,7 +4,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>Product Order</title>
+<title>Confirmation</title>
 </head>
 <body>
 
@@ -19,23 +19,11 @@
 	}catch(NullPointerException e){}
 %>
 
-<h1>Product Order Page</h1>
+<h1>Thank you for buying </h1>
+<p>~~~list of bought items here~~~</p>
 
-<p3>
-<form method="GET" action="productOrdering.jsp">
-		You have selected ___________ . <br> <br>
-		How many do you want to add to cart?<input type="number" name="orderNum"/>
-		<input type="submit" value="Add to Cart"/> </p3>
-</form>
-<br>
-<p3> Current contents of cart: <br>
-~~~~~contents here~~~~~~
-</p3>
 <br>
 <br>
-<br>
-<a href="buyShoppingCart.jsp">Buy Cart?</a>
-<p> or </p>
 <a href="productBrowsing.jsp?search=&category=all">Back to Browsing</a>
 
 </body>
