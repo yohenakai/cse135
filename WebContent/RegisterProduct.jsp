@@ -34,53 +34,123 @@
 	<%
         // Create the statement
         Statement statement = conn.createStatement();
+	
+		String action = request.getParameter("action");
 
         // Use the created statement to SELECT
         // the student attributes FROM the Student table.
         rs = statement.executeQuery("SELECT * FROM products where SKU = " +"'" + request.getParameter("sku")+ "'");
     %>
 	<%-- -------- INSERT Code -------- --%>
-	<%
-	    if (!rs.next() 
-	    && request.getParameter("productname") != "") {
-	
-	        // Begin transaction
-	        conn.setAutoCommit(false);
-	
-	        // Create the prepared statement and use it to
-	        // INSERT student values INTO the students table.
-	        pstmt = conn
-	        .prepareStatement("INSERT INTO products (name, sku, price, category) VALUES (?,?,?,?)");
-	
-	        pstmt.setString(1, request.getParameter("productname"));
-	        pstmt.setString(2, request.getParameter("sku"));
-	        pstmt.setDouble(3, Double.parseDouble(request.getParameter("price")));
-	        pstmt.setString(4, request.getParameter("category"));
+	<%	
+		if(action.equals("Insert"))
+		{
+		    if (!rs.next() 
+		    && request.getParameter("productname") != "") {
+		
+		        // Begin transaction
+		        conn.setAutoCommit(false);
+		
+		        // Create the prepared statement and use it to
+		        // INSERT student values INTO the students table.
+		        pstmt = conn
+		        .prepareStatement("INSERT INTO products (name, sku, price, category) VALUES (?,?,?,?)");
+		
+		        pstmt.setString(1, request.getParameter("productname"));
+		        pstmt.setString(2, request.getParameter("sku"));
+		        pstmt.setDouble(3, Double.parseDouble(request.getParameter("price")));
+		        pstmt.setString(4, request.getParameter("category"));
+		        int rowCount = pstmt.executeUpdate();
+		
+		        // Commit transaction
+		        conn.commit();
+		        conn.setAutoCommit(true); %>
+		        
+				<h1>Product Submission Successful</h1>
+				
+				<h3>Submitted Product Summary:</h3>
+				Category: <%=request.getParameter("category")%> <br>
+				Product: <%=request.getParameter("productname")%> <br>
+				SKU: <%=request.getParameter("sku")%> <br>
+				Price: <%=request.getParameter("price")%> <br>
+				
+				<a href="products.jsp?search=<%=request.getParameter("searchinput")%>&category=<%=request.getParameter("cat")%>">Back to products page</a>
+				
+		        <%
+		        
+		    }
+		    else{
+		    	
+		    	%>
+		        <h1>Failure to insert new product</h1>
+				
+		        <%
+		    	
+		    }
+		}
+		else if(action.equals("Update"))
+		{
+			conn.setAutoCommit(false);
+			pstmt = conn
+			        .prepareStatement("UPDATE products SET " +
+									  "name = ?," +
+			        				  "price = ?," + 
+			        				  "category = ?," +
+			        				  "sku = ? " +
+			        				  "WHERE sku = ?");
+			
+	        pstmt.setString(1, request.getParameter("name"));
+	        pstmt.setDouble(2, Double.parseDouble(request.getParameter("price")));
+	        pstmt.setString(3, request.getParameter("category"));
+	        pstmt.setString(4, request.getParameter("newsku"));
+	        pstmt.setString(5, request.getParameter("oldsku"));
 	        int rowCount = pstmt.executeUpdate();
 	
 	        // Commit transaction
 	        conn.commit();
-	        conn.setAutoCommit(true); %>
+	        conn.setAutoCommit(true);
 	        
-			<h1>Product Submission Successful</h1>
+	        %>
+	        <h1>Product Update Successful</h1>
+				
+				<h3>Updated Product Summary:</h3>
+				Category: <%=request.getParameter("category")%> <br>
+				Product: <%=request.getParameter("name")%> <br>
+				SKU: <%=request.getParameter("oldsku")%> <br>
+				Price: <%=request.getParameter("price")%> <br>
+				
+			<a href="products.jsp?search=<%=request.getParameter("searchinput")%>&category=<%=request.getParameter("cat")%>">Back to products page</a>
+	        <% 
 			
-			<h3>Submitted Product:</h3>
-			Category: <%=request.getParameter("category")%> <br>
-			Product: <%=request.getParameter("productname")%> <br>
-			SKU: <%=request.getParameter("sku")%> <br>
-			Price: <%=request.getParameter("price")%> <br>
+		}
+	
+		else
+		{
+			conn.setAutoCommit(false);
+			pstmt = conn
+			        .prepareStatement("DELETE from products "+
+			        				  "WHERE sku = ?");
 			
-	        <%
+	        pstmt.setString(1, request.getParameter("oldsku"));
+	        int rowCount = pstmt.executeUpdate();
+	
+	        // Commit transaction
+	        conn.commit();
+	        conn.setAutoCommit(true);
 	        
-	    }
-	    else{
-	    	
-	    	%>
-	        <h1>Failure to insert new product</h1>
-			
-	        <%
-	    	
-	    }
+	        %>
+	        <h1>Product Delete Successful</h1>
+				
+				<h3>Deleted Product Summary:</h3>
+				Category: <%=request.getParameter("category")%> <br>
+				Product: <%=request.getParameter("name")%> <br>
+				SKU: <%=request.getParameter("oldsku")%> <br>
+				Price: <%=request.getParameter("price")%> <br>
+				
+			<a href="products.jsp?search=<%=request.getParameter("searchinput")%>&category=<%=request.getParameter("cat")%>">Back to products page</a>
+	        <% 
+		}
+
 	 // Close the ResultSet
         rs.close();
 
@@ -95,7 +165,7 @@
         // it upwards
         //throw new RuntimeException(e);
     	%>
-        <h1>Failure to insert new product</h1>
+        <h1>Failure to update/delete new product</h1>
 		
         <%
     }

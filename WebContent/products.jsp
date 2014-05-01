@@ -14,6 +14,7 @@
 
 <%-- Import the java.sql package --%>
             <%@ page import="java.sql.*"%>
+            <%@ page import="java.util.*"%>
             <%@ page import="cse135.Util" %>
             <%-- -------- Open Connection Code -------- --%>
             <%
@@ -42,13 +43,13 @@
 
                 // Use the created statement to SELECT
                 // the student attributes FROM the Student table.
-                rs = statement.executeQuery("SELECT * FROM categories");
+                //rs = statement.executeQuery("SELECT * FROM categories");
             %>
 
 	<form method="GET" action="products.jsp">
 		Search (Enter Product Name):
 		<input type="text" name="search"/> <p/>
-		<input type="hidden" name="category" value=""/>
+		<input type="hidden" name="category" value=<%=request.getParameter("category")%>>
 		<input type="submit" value="Search"/>
 	</form>
 
@@ -56,10 +57,15 @@
 	
 	<% 
 	rs = statement.executeQuery("SELECT * FROM categories");
-	while (rs.next()) {
+	ArrayList<String> categories = new ArrayList<String>();
+	while(rs.next())
+	{
+		categories.add(rs.getString("category"));
+	}
+	for (int i = 0; i < categories.size(); i++) {
 	%>
 	
-	<a href="products.jsp?search=&category=<%=rs.getString("category")%>"><%=rs.getString("category")%></a>
+	<a href="products.jsp?search=&category=<%=categories.get(i)%>"><%=categories.get(i)%></a>
 	<br>
 	
 	<% } %>	
@@ -68,6 +74,8 @@
 <h3>Add product</h3>
 
 	<form method="POST" action="RegisterProduct.jsp">
+		<input type="hidden" name="searchinput" value=<%=request.getParameter("search")%>>
+		<input type="hidden" name="cat" value=<%=request.getParameter("category")%>>
 		Product name: 
 		<input type="text" name="productname"/> <p />
 		
@@ -79,14 +87,14 @@
 		
 		Category: 
 		<select name="category">
-		<% while (rs.next()) { %>
+		<% for(int i = 0; i < categories.size(); i++) { %>
 		
-		<option value="<%=rs.getString("category")%>"> <%=rs.getString("category")%> </option>
+		<option value="<%=categories.get(i)%>"> <%=categories.get(i)%> </option>
 		
 		<% } %>	
 		</select> <p />
 		
-		<input type="submit" value="Submit Product"/>
+		<input type="submit" name="action" value="Insert"/>
 	</form>
 	
 	
@@ -95,31 +103,31 @@
     String search = request.getParameter("search");
     if(cat != null && search != null)
     {
-    if(!search.equals(""))
-    {
-    	if(cat.equals("all") || cat.equals(""))
-    	{
-    		rs = statement.executeQuery("SELECT * FROM products where name LIKE" + "'%" + search + "%'");
-    	}
-    	else
-    	{
-    		rs = statement.executeQuery("SELECT * FROM products where category = " + "'" + cat + "' AND name LIKE" + "'%" + search+ "%'");		
-    	}
-    }
-    
-    else
-    {
-        if(cat.equals("all")){
-        	rs = statement.executeQuery("SELECT * FROM products");
-        }
-        else
-        {
-        	rs = statement.executeQuery("SELECT * FROM products where category = " +"'" + cat+ "'");
-        }
-    }
+	    if(!search.equals(""))
+	    {
+	    	if(cat.equals("all") || cat.equals(""))
+	    	{
+	    		rs = statement.executeQuery("SELECT * FROM products where name LIKE" + "'%" + search + "%'");
+	    	}
+	    	else
+	    	{
+	    		rs = statement.executeQuery("SELECT * FROM products where category = " + "'" + cat + "' AND name LIKE" + "'%" + search+ "%'");		
+	    	}
+	    }
+	    
+	    else
+	    {
+	        if(cat.equals("all")){
+	        	rs = statement.executeQuery("SELECT * FROM products");
+	        }
+	        else
+	        {
+	        	rs = statement.executeQuery("SELECT * FROM products where category = " +"'" + cat+ "'");
+	        }
+	    }
        
-   	if (rs.next())
-   	{
+	   	if (rs.isBeforeFirst())
+	   	{
 	%>
 	<h3>Search Result</h3>
 	
@@ -130,26 +138,52 @@
 	<th>SKU</th>
 	<th>Price</th>
 	
-	<% while (rs.next()) { %>
+		<%	while (rs.next()) { %>
 
 	<tr>
-		<td>  <%=rs.getString("category")%> </td>
-		<td>  <%=rs.getString("name")%> </td>
-		<td>  <%=rs.getString("sku")%> </td>
-		<td>  <%=rs.getString("price")%> </td>
+		<form action="RegisterProduct.jsp" method=POST>
+			<input type="hidden" name="searchinput" value=<%=search%>>
+			<input type="hidden" name="cat" value=<%=cat%>>
+			<input type="hidden" name="oldsku" value="<%=rs.getString("sku")%>"/>
+			<td>  
+				<select name="category">
+				<% for(int i = 0; i < categories.size(); i++) { 
+					if(categories.get(i).equals(rs.getString("category")))
+					{
+				%>
+				
+				<option value="<%=categories.get(i)%>" selected="selected"> <%=categories.get(i)%> </option>
+				
+				<% }
+				else
+				{
+				%>
+				
+				<option value="<%=categories.get(i)%>"> <%=categories.get(i)%> </option>
+				
+				<% }} %>	
+				</select> <p />
+			 </td>
+			<td> <input type="text" name="name" value="<%=rs.getString("name")%>"/> </td>
+			<td> <input type="text" name="newsku" value="<%=rs.getString("sku")%>"/> </td>
+			<td> <input type="text" name="price" value="<%=rs.getString("price")%>"/> </td>
+			
+			<td> <input type="submit" name="action" value="Update"> </td>
+			<td> <input type="submit" name="action" value="Delete"> </td>
+		</form>
 	</tr>
 	
-	<% } %>
+		<% } %>
 	
 	</table>
-	<% } else
-   	{}
-   	}%>
-   	
-   	
-	
-	
-	
+	<% 
+		} 
+		else 
+		{}
+	}
+   	%>
+
+
 	            <%-- -------- Close Connection Code -------- --%>
             <%
                 // Close the ResultSet
