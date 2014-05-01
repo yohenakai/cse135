@@ -8,6 +8,9 @@
 </head>
 <body>
 <h1>Options</h1>
+
+<% if(Util.isOwner(session)) {%>
+
 <h3><%=Util.greeting(session.getAttribute("username").toString()) %></h3>
 
 <%-- Import the java.sql package --%>
@@ -16,5 +19,11 @@
             <%-- -------- Open Connection Code -------- --%>
 <li><a href="categories.jsp">Product Categories</a></li>
 <li><a href="products.jsp">Add/View Products</a></li>
+
+<% }else{ %>
+    <h3>You must be logged in first</h3>
+   	<a href="login.html">Login</a>
+<% } %> 
+
 </body>
 </html>

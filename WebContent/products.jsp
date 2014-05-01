@@ -8,6 +8,8 @@
 </head>
 <body>
 
+<% if(Util.isOwner(session)) {%>
+
 <h1>Products page</h1>
 <h3><%=Util.greeting(session.getAttribute("username").toString()) %></h3>
 
@@ -223,7 +225,13 @@
                     conn = null;
                 }
             }
-            %>
+            
+    }else{%>
+    
+    <h3>You must be logged in first</h3>
+   	<a href="login.html">Login</a>
+
+	<% } %>  
 
 
 </body>

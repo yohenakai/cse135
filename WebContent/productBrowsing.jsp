@@ -9,8 +9,9 @@
 <body>
 <h1>Products Browsing page</h1>
 
-<h3><%=Util.greeting(session.getAttribute("username").toString()) %></h3>
+<% if(Util.isCustomer(session)) {%>
 
+<h3><%=Util.greeting(session.getAttribute("username").toString()) %></h3>
 
 <%-- Import the java.sql package --%>
             <%@ page import="java.sql.*"%>
@@ -175,7 +176,13 @@
                     conn = null;
                 }
             }
-            %>
+            
+   }else{%>
+   
+   <h3>You must be logged in first</h3>
+   <a href="login.html">Login</a>
+
+	<% } %>   
 
 </body>
 </html>

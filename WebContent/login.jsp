@@ -52,9 +52,11 @@
             		session.setAttribute("username",username);
             		if((rs.getString("role")).equals("owner")){
                     	response.sendRedirect("ownerOptions.jsp");
+                    	session.setAttribute("role", "owner");
             		}
             		else{
             			response.sendRedirect("productBrowsing.jsp");
+            			session.setAttribute("role", "customer");
             		}
             	}
             	
