@@ -7,8 +7,9 @@
 <title>Product Order</title>
 </head>
 <body>
-<h1>Products Browsing page</h1>
 
+<% if(Util.isCustomer(session)) {%>
+<h1>Products Browsing page</h1>
 <h3><%
 	try{
 	Util.greeting(session.getAttribute("username").toString());
@@ -182,7 +183,13 @@
                     conn = null;
                 }
             }
-            %>
+            
+}else{    %>
+   
+   <h3>You must be logged in first</h3>
+   <a href="login.html">Login</a>
+
+	<% } %>   
 
 </body>
 </html>

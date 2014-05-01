@@ -80,7 +80,7 @@
     {
 	    if(!search.equals(""))
 	    {
-	    	if(cat.equals("all") || cat.equals(""))
+	    	if(cat.equals("all") || cat.equals("null"))
 	    	{
 	    		rs = statement.executeQuery("SELECT * FROM products where name LIKE" + "'%" + search + "%'");
 	    	}
