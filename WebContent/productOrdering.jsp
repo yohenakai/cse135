@@ -41,8 +41,9 @@
         Statement statement = conn.createStatement();
     %>
 	
-	<h1>Product Order Page</h1>
-	
+	<h1 align = "center">Product Order Page</h1>
+	<p align = "right"> <a href="buyShoppingCart.jsp">Buy Cart?</a> <p>
+
 	You have selected <%=request.getParameter("name")%>.
 	
 	<form method="POST" action="AddToCart.jsp">
