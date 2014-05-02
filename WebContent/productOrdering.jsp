@@ -18,11 +18,10 @@
 	Util.greeting(session.getAttribute("username").toString());
 	}catch(NullPointerException e){}
 %>
-
-<h1>Product Order Page</h1>
-
+<h1 align = "center">Product Order Page</h1>
+<p align = "right"> <a href="buyShoppingCart.jsp">Buy Cart?</a> <p>
 <p3>
-<form method="GET" action="productOrdering.jsp">
+<form method="GET" action="productBrowsing.jsp">
 		You have selected ___________ . <br> <br>
 		How many do you want to add to cart?<input type="number" name="orderNum"/>
 		<input type="submit" value="Add to Cart"/> </p3>
@@ -34,8 +33,6 @@
 <br>
 <br>
 <br>
-<a href="buyShoppingCart.jsp">Buy Cart?</a>
-<p> or </p>
 <a href="productBrowsing.jsp?search=&category=all">Back to Browsing</a>
 
 </body>

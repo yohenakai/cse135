@@ -9,7 +9,8 @@
 <body>
 
 <% if(Util.isCustomer(session)) {%>
-<h1>Products Browsing page</h1>
+<h1 align = "center">Product Browsing</h1>
+<p align = "right"> <a href="buyShoppingCart.jsp">Buy Cart?</a> <p>
 
 <h3><%=Util.greeting(session.getAttribute("username").toString()) %></h3>
 
