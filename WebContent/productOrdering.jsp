@@ -15,7 +15,7 @@
 	            <%@ page import="java.sql.*"%>
 	            <%@ page import="java.util.*"%>
 	            <%@ page import="cse135.Util" %>
-	            <%-- -------- Open Connection Code -------- --%>
+    <%-- -------- Open Connection Code -------- --%>
 	<%
 	
 	Connection conn = null;
