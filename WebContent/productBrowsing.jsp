@@ -117,11 +117,8 @@
 		<%	while (rs.next()) { %>
 
 	<tr>
-			<input type="hidden" name="searchinput" value=<%=search%>>
-			<input type="hidden" name="cat" value=<%=cat%>>
-			<input type="hidden" name="oldsku" value="<%=rs.getString("sku")%>"/>
 			<td> <%=rs.getString("category")%>  </td>
-			<td> <%=rs.getString("name")%> </td>
+			<td> <a href="productOrdering.jsp?name=<%=rs.getString("name")%>&sku=<%=rs.getString("sku")%>"><%=rs.getString("name")%></a> </td>
 			<td> <%=rs.getString("sku")%> </td>
 			<td> <%=rs.getString("price")%> </td>
 
