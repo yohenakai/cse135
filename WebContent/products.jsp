@@ -12,6 +12,7 @@
 
 <h1>Products page</h1>
 <h3><%=Util.greeting(session.getAttribute("username").toString()) %></h3>
+<p align = "right"> <a href="ownerOptions.jsp">Back to options</a> <p>
 
 
 <%-- Import the java.sql package --%>

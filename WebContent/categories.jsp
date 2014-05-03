@@ -13,7 +13,7 @@
 <h1>Categories page</h1>
 
 <h3><%=Util.greeting(session.getAttribute("username").toString()) %></h3>
-
+<p align = "right"> <a href="ownerOptions.jsp">Back to options</a> <p>
 <table>
     <tr>
         <td>
@@ -79,11 +79,12 @@
                     // Create the prepared statement and use it to
                     // UPDATE student values in the Students table.
                     pstmt = conn
-                        .prepareStatement("UPDATE categories SET description = ? "
+                        .prepareStatement("UPDATE categories SET description = ?, category = ? "
                             + " WHERE category = ?");
                     
                     pstmt.setString(1, request.getParameter("descript"));
-                    pstmt.setString(2, request.getParameter("categor"));
+                    pstmt.setString(2, request.getParameter("newcategor"));
+                    pstmt.setString(3, request.getParameter("categor"));
                     int rowCount = pstmt.executeUpdate();
 
                     // Commit transaction
@@ -154,7 +155,7 @@
 					<input type="hidden" value="<%=rs.getString("category")%>" name="categor"/>
                 <%-- Get the id --%>
                 <td>
-                    <%=rs.getString("category")%>
+                    <input type="text" value="<%=rs.getString("category")%>" name="newcategor"/>
                 </td>
 
           
@@ -191,7 +192,7 @@
 					<input type="hidden" value="<%=res.getString("category")%>" name="categor"/>
                 <%-- Get the id --%>
                 <td>
-                    <%=res.getString("category")%>
+                    <input type="text" value="<%=res.getString("category")%>" name="newcategor"/>
                 </td>
 
           
