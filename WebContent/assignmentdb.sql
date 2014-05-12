@@ -10,7 +10,7 @@ CREATE TABLE users
 CREATE TABLE categories
 (
   category text NOT NULL,
-  description text,
+  description text NOT NULL,
   CONSTRAINT pkey_category PRIMARY KEY (category)
 )
 
@@ -30,9 +30,9 @@ CREATE TABLE products
 CREATE TABLE orders
 (
   id serial NOT NULL,
-  username text,
-  productsku text,
-  quantity integer,
+  username text NOT NULL,
+  productsku text NOT NULL,
+  quantity integer NOT NULL,
   CONSTRAINT "id-pkey" PRIMARY KEY (id),
   CONSTRAINT "product-pkey" FOREIGN KEY (productsku)
       REFERENCES products (sku) MATCH SIMPLE
