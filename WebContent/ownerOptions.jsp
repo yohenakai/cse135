@@ -20,6 +20,7 @@
             <%-- -------- Open Connection Code -------- --%>
 <li><a href="categories.jsp">Product Categories</a></li>
 <li><a href="products.jsp">Add/View Products</a></li>
+<li><a href="salesAnalytics.jsp">Sales Analytics</a></li>
 
 <% }else{ %>
     <h3>You must be logged in first</h3>
