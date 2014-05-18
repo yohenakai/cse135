@@ -47,7 +47,7 @@
 		String age = request.getParameter("age");
 		String state = request.getParameter("state");
 		String category = request.getParameter("category");
-		String quarter = request.getParameter("quarter");
+		//String quarter = request.getParameter("quarter");
 		
 	} %>
 	
@@ -170,7 +170,8 @@
 			} 
 			%>
 			</select> <p/>
-			
+		
+		<%-- 	
 		Quarter:
 			<select name="quarter">
 			
@@ -181,6 +182,7 @@
 				<option value="fa">Fall</option>
 				
 			</select> <p/>
+		--%>
 			
 		<input type="submit" name="action" value="Run Query"/>
 			
